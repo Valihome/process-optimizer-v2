@@ -1,0 +1,26 @@
+# render.yaml - Process Optimizer v2 Blueprint
+services:
+  - type: web
+    name: process-optimizer-v2-backend
+    env: python
+    plan: free
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "gunicorn app:app --chdir backend --bind 0.0.0.0:$PORT"
+    autoDeploy: true
+    envVars:
+      - key: FLASK_ENV
+        value: production
+
+  - type: static
+    name: process-optimizer-v2-frontend
+    env: node
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: frontend/dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: process-optimizer-v2-backend
+          envVarKey: RENDER_EXTERNAL_URL
