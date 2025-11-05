@@ -1,6 +1,5 @@
 # render.yaml - Process Optimizer v2 Blueprint
 services:
-  # 1. Serviciul Web (Backend Python/Gunicorn)
   - type: web
     name: process-optimizer-v2-backend
     env: python
@@ -12,8 +11,7 @@ services:
       - key: FLASK_ENV
         value: production
 
-  # 2. Serviciul Static (Frontend Node/Vite/React/etc.)
-  - type: **static** # CORECȚIE: "static" a fost înlocuit cu "static_site"
+  - type: static
     name: process-optimizer-v2-frontend
     env: node
     plan: free
